@@ -1,4 +1,5 @@
 import truck_telemetry
 
 truck_telemetry.init()
-print(truck_telemetry.get_data())
+data = truck_telemetry.get_data()
+print(data["speed"])

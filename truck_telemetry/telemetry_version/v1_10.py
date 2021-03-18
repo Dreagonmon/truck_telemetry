@@ -313,5 +313,4 @@ def is_same_version(data):
     return STRUCT_TELEMETRY_VERSION.unpack_from(data) == VERSION_NUMBER
 
 def parse_data(data):
-    print(struct_telemetry.size)
     return struct_telemetry.unpack_from(data)
