@@ -4,12 +4,13 @@ from .unpack import struct_bool, struct_int, struct_unsigned_int
 from .unpack import struct_float, struct_double
 from .unpack import struct_long_long, struct_unsigned_long_long
 
-VERSION_NUMBER = 10
+VERSION_NUMBER = 12
 STRUCT_TELEMETRY_VERSION = BasicStruct("40xI")
 SUBSTANCE_SIZE = 25
 STRING_SIZE = 64
 
 struct_trailer = DictStruct(
+    # Start of 1st zone
     ("wheelSteerable", ArraySruct(struct_bool, 16)),
     ("wheelSimulated", ArraySruct(struct_bool, 16)),
     ("wheelPowered", ArraySruct(struct_bool, 16)),
@@ -17,11 +18,16 @@ struct_trailer = DictStruct(
     ("wheelOnGround", ArraySruct(struct_bool, 16)),
     ("attached", struct_bool),
     (None, BytesStruct(3)),
+    # End of 1st zone
+    # Start of 2nd zone
     ("wheelSubstance", ArraySruct(struct_unsigned_int, 16)),
     ("wheelCount", struct_unsigned_int),
+    # End of 2nd zone
+    # Start of 3rd zone
     ("cargoDamage", struct_float),
     ("wearChassis", struct_float),
     ("wearWheels", struct_float),
+    ("wearBody", struct_float),
     ("wheelSuspDeflection", ArraySruct(struct_float, 16)),
     ("wheelVelocity", ArraySruct(struct_float, 16)),
     ("wheelSteering", ArraySruct(struct_float, 16)),
@@ -29,6 +35,8 @@ struct_trailer = DictStruct(
     ("wheelLift", ArraySruct(struct_float, 16)),
     ("wheelLiftOffset", ArraySruct(struct_float, 16)),
     ("wheelRadius", ArraySruct(struct_float, 16)),
+    # End of 3rd zone
+    # Start of 4th zone
     ("linearVelocityX", struct_float),
     ("linearVelocityY", struct_float),
     ("linearVelocityZ", struct_float),
@@ -47,12 +55,17 @@ struct_trailer = DictStruct(
     ("wheelPositionX", ArraySruct(struct_float, 16)),
     ("wheelPositionY", ArraySruct(struct_float, 16)),
     ("wheelPositionZ", ArraySruct(struct_float, 16)),
+    (None, BytesStruct(4)),
+    # End of 4th zone
+    # Start of 5th zone
     ("worldX", struct_double),
     ("worldY", struct_double),
     ("worldZ", struct_double),
     ("rotationX", struct_double),
     ("rotationY", struct_double),
     ("rotationZ", struct_double),
+    # End of 5th zone
+    # Start of 6th zone
     # 10 string below, scs-telemetry-common.hpp count 9 is not correct.
     ("id", StringStruct(STRING_SIZE)),
     ("cargoAcessoryId", StringStruct(STRING_SIZE)),
@@ -64,10 +77,12 @@ struct_trailer = DictStruct(
     ("licensePlate", StringStruct(STRING_SIZE)),
     ("licensePlateCountry", StringStruct(STRING_SIZE)),
     ("licensePlateCountryId", StringStruct(STRING_SIZE)),
-    # scs-telemetry-common.hpp wrong, trailer size is 1552, not 1528, 
+    # scs-telemetry-common.hpp wrong, trailer size is 1552, not 1528,
+    # End of 6th zone
 )
 
 struct_telemetry = DictStruct(
+    # Start of 1st Zone
     ("sdkActive", struct_bool),
     (None, BytesStruct(3)),
     ("paused", struct_bool),
@@ -75,7 +90,9 @@ struct_telemetry = DictStruct(
     ("time", struct_unsigned_long_long),
     ("simulatedTime", struct_unsigned_long_long),
     ("renderTime", struct_unsigned_long_long),
-    (None, BytesStruct(8)),
+    ("multiplayerTimeOffset", struct_long_long),
+    # End of 1st zone
+    # Start of 2nd zone
     ("telemetry_plugin_revision", struct_unsigned_int),
     ("version_major", struct_unsigned_int),
     ("version_minor", struct_unsigned_int),
@@ -103,12 +120,16 @@ struct_telemetry = DictStruct(
     ("jobStartingTime", struct_unsigned_int),
     ("jobFinishedTime", struct_unsigned_int),
     (None, BytesStruct(48)),
+    # End of 2nd Zone
+    # Start of 3rd Zone
     ("restStop", struct_int),
     ("gear", struct_int),
     ("gearDashboard", struct_int),
     ("hshifterResulting", ArraySruct(struct_int, 32)),
     ("jobDeliveredEarnedXp", struct_int),
     (None, BytesStruct(56)),
+    # End of 3rd Zone
+    # Start of 4th Zone
     ("scale", struct_float),
     ("fuelCapacity", struct_float),
     ("fuelWarningFactor", struct_float),
@@ -168,6 +189,8 @@ struct_telemetry = DictStruct(
     ("refuelAmount", struct_float),
     ("cargoDamage", struct_float),
     (None, BytesStruct(28)),
+    # End of 4th Zone
+    # Start of 5th Zone
     ("truckWheelSteerable", ArraySruct(struct_bool, 16)),
     ("truckWheelSimulated", ArraySruct(struct_bool, 16)),
     ("truckWheelPowered", ArraySruct(struct_bool, 16)),
@@ -196,12 +219,20 @@ struct_telemetry = DictStruct(
     ("lightsBeacon", struct_bool),
     ("lightsBrake", struct_bool),
     ("lightsReverse", struct_bool),
+    ("lightsHazards", struct_bool),
     ("cruiseControl", struct_bool),
     ("truckWheelOnGround", ArraySruct(struct_bool, 16)),
     ("shifterToggle", ArraySruct(struct_bool, 2)),
+    ("differentialLock", struct_bool),
+    ("liftAxle", struct_bool),
+    ("liftAxleIndicator", struct_bool),
+    ("trailerLiftAxle", struct_bool),
+    ("trailerLiftAxleIndicator", struct_bool),
     ("jobDeliveredAutoparkUsed", struct_bool),
     ("jobDeliveredAutoloadUsed", struct_bool),
-    (None, BytesStruct(31)),
+    (None, BytesStruct(25)),
+    # End of 5th zone
+    # Start of 6th zone
     ("cabinPositionX", struct_float),
     ("cabinPositionY", struct_float),
     ("cabinPositionY", struct_float),
@@ -233,6 +264,8 @@ struct_telemetry = DictStruct(
     ("cabinAAY", struct_float),
     ("cabinAAZ", struct_float),
     (None, BytesStruct(60)),
+    # End of 6th zone
+    # Start of 7th zone
     ("cabinOffsetX", struct_float),
     ("cabinOffsetY", struct_float),
     ("cabinOffsetZ", struct_float),
@@ -246,6 +279,8 @@ struct_telemetry = DictStruct(
     ("headOffsetrotationY", struct_float),
     ("headOffsetrotationZ", struct_float),
     (None, BytesStruct(152)),
+    # End of 7th zone
+    # Start of 8th zone
     ("coordinateX", struct_double),
     ("coordinateY", struct_double),
     ("coordinateZ", struct_double),
@@ -253,6 +288,8 @@ struct_telemetry = DictStruct(
     ("rotationY", struct_double),
     ("rotationZ", struct_double),
     (None, BytesStruct(52)),
+    # End of 8th zone
+    # Start of 9th zone
     ("truckBrandId", StringStruct(STRING_SIZE)),
     ("truckBrand", StringStruct(STRING_SIZE)),
     ("truckId", StringStruct(STRING_SIZE)),
@@ -282,8 +319,12 @@ struct_telemetry = DictStruct(
     ("trainSourceId", StringStruct(STRING_SIZE)),
     ("trainTargetId", StringStruct(STRING_SIZE)),
     (None, BytesStruct(20)),
+    # End of 9th zone
+    # Start of 10th zone
     ("jobIncome", struct_unsigned_long_long),
     (None, BytesStruct(192)),
+    # End of 10th zone
+    # Start of 11th zone
     ("jobCancelledPenalty", struct_long_long),
     ("jobDeliveredRevenue", struct_long_long),
     ("fineAmount", struct_long_long),
@@ -291,6 +332,8 @@ struct_telemetry = DictStruct(
     ("ferryPayAmount", struct_long_long),
     ("trainPayAmount", struct_long_long),
     (None, BytesStruct(52)),
+    # End of 11th zone
+    # Start of 12th zone
     ("onJob", struct_bool),
     ("jobFinished", struct_bool),
     ("jobCancelled", struct_bool),
@@ -302,8 +345,13 @@ struct_telemetry = DictStruct(
     ("refuel", struct_bool),
     ("refuelPayed", struct_bool),
     (None, BytesStruct(90)),
+    # End of 12th zone
+    # Start of 13th zone
     ("substances", ArraySruct(StringStruct(STRING_SIZE), SUBSTANCE_SIZE)),
+    # End of 13th zone
+    # Start of 14th zone - Contains space for up to 10 trailers
     ("trailer", ArraySruct(struct_trailer, 10))
+    # End of 14th zone
 )
 
 def get_version_number():
