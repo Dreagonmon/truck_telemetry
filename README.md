@@ -22,4 +22,6 @@ data = truck_telemetry.get_data() # type: dict
 speed = data["speed"] # type: float
 ```
 
-More dict keys: [scs-telemetry-common.hpp(V.1.12)](https://github.com/RenCloud/scs-sdk-plugin/blob/V.1.12/scs-telemetry/inc/scs-telemetry-common.hpp)
+More dict keys:
+* [scs-telemetry-common.hpp(V.1.10.6)](https://github.com/RenCloud/scs-sdk-plugin/blob/V.1.10.6/scs-telemetry/inc/scs-telemetry-common.hpp)
+* [scs-telemetry-common.hpp(V.1.12)](https://github.com/RenCloud/scs-sdk-plugin/blob/V.1.12/scs-telemetry/inc/scs-telemetry-common.hpp)
