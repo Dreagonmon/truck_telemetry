@@ -4,7 +4,9 @@ using [scs-sdk-plugin by RenCloud](https://github.com/RenCloud/scs-sdk-plugin)
 SCS Telemetry for EuroTruckSimulator 2 and AmericanTruckSimulator
 
 ## Supported Version
-Current supported [scs-sdk-plugin V.1.12](https://github.com/RenCloud/scs-sdk-plugin/releases/tag/V.1.12)
+Current supported:
+* [scs-sdk-plugin V.1.10.6](https://github.com/RenCloud/scs-sdk-plugin/releases/tag/V.1.10.6)
+* [scs-sdk-plugin V.1.12](https://github.com/RenCloud/scs-sdk-plugin/releases/tag/V.1.12)
 
 ## Useage
 Download supported version scs-sdk-plugin, and follow the [guide](https://github.com/RenCloud/scs-sdk-plugin#installation) to install.

@@ -1,5 +1,5 @@
 from multiprocessing.shared_memory import SharedMemory
-from .telemetry_version import v1_10
+from .telemetry_version import v1_10, v1_12
 
 _mem = None
 _telemetry_sdk_version = None
@@ -7,7 +7,7 @@ _telemetry_sdk_version = None
 def init():
     global _mem, _telemetry_sdk_version
     _mem = SharedMemory(name="Local\\SCSTelemetry", create=False)
-    for version in (v1_10,):
+    for version in (v1_10, v1_12):
         if (version.is_same_version(_mem.buf)):
             _telemetry_sdk_version = version
             break
